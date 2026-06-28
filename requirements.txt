@@ -1,0 +1,6 @@
+playwright>=1.60.0
+pytest>=9.1.1
+pytest-bdd>=8.1.0
+pytest-playwright>=0.8.0
+allure-pytest>=2.16.0
+hypothesis>=6.155.7

@@ -18,6 +18,6 @@ class Actor:
             task.perform_as(self)
     
     def asks_about(self, question) -> Any:
-        # Evaluate a Questioin and return the result.
+        # Evaluate a Question and return the result.
         return question.answered_by(self)
     

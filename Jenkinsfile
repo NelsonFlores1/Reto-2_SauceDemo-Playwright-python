@@ -43,6 +43,9 @@ pipeline {
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                     script {
+                        echo "Verificando conexion a internet desde Jenkins..."
+                        bat 'ping www.saucedemo.com' // <-- Diagnóstico de red
+                        
                         echo "Running BDD Tests..."
                         bat '''
                         call venv\\Scripts\\activate.bat
@@ -52,6 +55,20 @@ pipeline {
                 }
             }
         }
+
+        // stage('Execute Tests') {
+        //     steps {
+        //         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+        //             script {
+        //                 echo "Running BDD Tests..."
+        //                 bat '''
+        //                 call venv\\Scripts\\activate.bat
+        //                 pytest tests/ --alluredir=allure-results
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     post {

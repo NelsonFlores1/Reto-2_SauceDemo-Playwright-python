@@ -4,7 +4,7 @@ from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 class NavigateTo:
     # Navigate the browser to a path relative to base URL.
 
-    def __init__(self, path: str, timeout: int = 3000):
+    def __init__(self, path: str, timeout: int = 10000):
         self._path = path
         self._timeoout = timeout
 

@@ -1,81 +1,47 @@
 pipeline {
-    agent any
+    // Agregamos el parámetro label para cumplir con la regla de Jenkins
+    agent {
+        node {
+            label '' // <-- Esta es la pieza clave que faltaba
+            customWorkspace 'C:\\Users\\Nelson\\Documents\\GitHub\\Reto-2_SauceDemo-Playwright-python-'
+        }
+    }
 
     environment {
         PYTHONDONTWRITEBYTECODE = '1'
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Setup & Playwright') {
             steps {
-                checkout scm
+                echo "Ejecutando directamente desde el entorno local..."
+                bat '''
+                python -m venv venv
+                call venv\\Scripts\\activate.bat
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+                playwright install chromium --with-deps
+                '''
             }
         }
-
-        stage('Setup Environment') {
-            steps {
-                script {
-                    echo "Setting up Python Virtual Environment and Dependencies..."
-                    // Cambiamos 'sh' por 'bat' y usamos la ruta de Windows para el entorno virtual
-                    bat '''
-                    python -m venv venv
-                    call venv\\Scripts\\activate.bat
-                    python -m pip install --upgrade pip
-                    pip install -r requirements.txt
-                    '''
-                }
-            }
-        }
-
-        stage('Install Playwright Browsers') {
-            steps {
-                script {
-                    echo "Installing Playwright Chromium browser..."
-                    bat '''
-                    call venv\\Scripts\\activate.bat
-                    playwright install chromium --with-deps
-                    '''
-                }
-            }
-        }
-
+        
         stage('Execute Tests') {
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                    script {
-                        echo "Verificando conexion a internet desde Jenkins..."
-                        bat 'ping www.saucedemo.com' // <-- Diagnóstico de red
-                        
-                        echo "Running BDD Tests..."
-                        bat '''
-                        call venv\\Scripts\\activate.bat
-                        pytest tests/ --alluredir=allure-results
-                        '''
-                    }
+                    echo "Corriendo pruebas BDD de forma local..."
+                    bat '''
+                    call venv\\Scripts\\activate.bat
+                    pytest tests/ --alluredir=allure-results
+                    '''
                 }
             }
         }
-
-        // stage('Execute Tests') {
-        //     steps {
-        //         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-        //             script {
-        //                 echo "Running BDD Tests..."
-        //                 bat '''
-        //                 call venv\\Scripts\\activate.bat
-        //                 pytest tests/ --alluredir=allure-results
-        //                 '''
-        //             }
-        //         }
-        //     }
-        // }
     }
 
     post {
         always {
-            echo "Generating Allure Report..."
+            echo "Generando Reporte de Allure..."
             allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-            cleanWs() 
         }
     }
 }

@@ -24,7 +24,7 @@ NAVIGATION_TIMEOUT_MS = 30_000  # 30 seconds
 ELEMENT_VISIBILITY_TIMEOUT_MS = 10_000  # 10 seconds
 
 # Saucedemo configuration
-SAUCEDEMO_BASE_URL = "https://www.saucedemo.com/"
+SAUCEDEMO_BASE_URL = "https://www.saucedemo.com"
 
 
 # def pytest_configure(config):

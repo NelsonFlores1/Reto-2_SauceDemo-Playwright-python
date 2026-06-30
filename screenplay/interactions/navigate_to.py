@@ -11,7 +11,11 @@ class NavigateTo:
     def perform_as(self, actor) -> None:
         with allure.step(f"Navigate to {self._path}"):
             ability = actor.ability
-            target_url = f"{ability.base_url}/{self._path}"
+
+            if self._path or self._path.strip():
+                target_url = f"{ability.base_url}/{self._path}"
+            else:
+                target_url = f"{ability.base_url}"
             try:
                 ability.page.goto(target_url, timeout = self._timeoout)
                 ability.page.wait_for_load_state("networkidle")

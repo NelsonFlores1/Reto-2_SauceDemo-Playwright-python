@@ -1,0 +1,1 @@
+{"uuid": "710fbaa8-401c-4af2-9d74-e05b3bf5468d", "befores": [{"name": "pytestbdd_stepdef_when_he sorts the products by \"{sort_option}\"", "status": "passed", "start": 1782779613854, "stop": 1782779613854}], "afters": [{"name": "pytestbdd_stepdef_when_he sorts the products by \"{sort_option}\"::<lambda>", "start": 1782779613897}], "start": 1782779613854, "stop": 1782779613897}

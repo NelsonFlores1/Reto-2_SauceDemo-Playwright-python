@@ -1,18 +1,19 @@
 import allure
-from pytest_bdd import given, when, then, parsers
+from pytest_bdd import when, then, parsers
 
 from screenplay.actors.actor import Actor
 from screenplay.tasks.sort_products import SortProducts
 from screenplay.questions.is_sorted_by_price import IsSortedByPrice
 from screenplay.questions.is_sorted_by_product_name import IsSortedByProductName
+from screenplay.tasks.login import Login
 
-@when(parsers.parse("he sorts the products by '{sort_option}'"))
+@when(parsers.parse('he sorts the products by "{sort_option}"'))
 def sort_products(actor: Actor, sort_option: str):
     actor.attempts_to(
         SortProducts(sort_option)  
     )
 
-@then(parsers.parse("the product should be sorted by '{sort_order}'"))
+@then(parsers.parse('the product should be sorted by "{sort_order}"'))
 def verify_product_sorting(actor: Actor, sort_order: str):
     
     if "Name" in sort_order:

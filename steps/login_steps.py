@@ -12,7 +12,8 @@ from screenplay.questions.is_logged_in import IsLoggedIn
 @given("the user wants to access the store from login page")
 def navigate_to_login_page(actor: Actor):
     """Navigate the browser to the Saucedemo login page"""
-    actor.attempts_to("https://www.saucedemo.com")
+    # actor.attempts_to(NavigateTo("https://www.saucedemo.com"))
+    actor.attempts_to(NavigateTo(""))
 
 @when(
     parsers.parse('he logs in with username "{username}" and password "{password}"'),
